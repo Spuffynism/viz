@@ -3,15 +3,12 @@ import {useEffect, useMemo, useState} from "react";
 import {DEFAULT_NOW_PLAYING, NowPlayingContext} from "./NowPlayingContext";
 import {getNowPlaying} from "./api/spotify";
 
-// TODO: Create access token and refresh token providers
 export default function App() {
-  const accessToken = window.location.hash.match(/access_token=([a-zA-Z0-9_\-]*)/)[1];
-
   const [nowPlaying, setNowPlaying] = useState(DEFAULT_NOW_PLAYING);
 
   useEffect(() => {
     const fetchNowPlaying = async () => {
-      const response = await getNowPlaying(accessToken)
+      const response = await getNowPlaying()
         .catch((err) => {
           console.error("Fetch error", err);
         })
