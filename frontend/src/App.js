@@ -1,10 +1,25 @@
-import SpinningViz from "./SpinningViz";
-import {useEffect, useMemo, useState} from "react";
+import Spinning from "./vizzes/spinning/Spinning";
+import {useEffect, useState, Suspense} from "react";
 import {DEFAULT_NOW_PLAYING, NowPlayingContext} from "./NowPlayingContext";
 import {getNowPlaying} from "./api/spotify";
+import Dispersion from './vizzes/dispersion/Dispersion'
+import Refraction from './vizzes/refraction/Refraction'
+import { Leva, useControls } from 'leva'
+import Monolith from './vizzes/monolith/Monolith'
 
 export default function App() {
   const [nowPlaying, setNowPlaying] = useState(DEFAULT_NOW_PLAYING);
+
+  const scenes = [
+    <Spinning/>,
+    <Dispersion/>,
+    <Refraction />,
+    <Monolith />
+  ]
+
+  const { scene } = useControls({
+    scene: { value: 3, min: 0, max: scenes.length - 1, step: 1 },
+  })
 
   useEffect(() => {
     const fetchNowPlaying = async () => {
@@ -13,11 +28,17 @@ export default function App() {
           console.error("Fetch error", err);
         })
 
-      const body = await response.json();
+      let body
+      try {
+        body = await response.json()
+      } catch (e) {
+        console.log('Nothing playing!')
+        return
+      }
 
       if (!body) {
-        console.log('Couldn\'t fetch now playing', res);
-        return;
+        console.log('Couldn\'t fetch now playing', response);
+        return
       }
 
       console.log('tick ok');
@@ -44,7 +65,27 @@ export default function App() {
 
   return (
     <NowPlayingContext.Provider value={nowPlaying}>
-      <SpinningViz/>
+      <FadingControls/>
+      {scenes[scene]}
     </NowPlayingContext.Provider>
+  )
+}
+
+const FadingControls = () => {
+  const [hidden, setIsHidden] = useState(true)
+
+  const style = hidden ? {visibility: 'hidden'} : {}
+
+  return (
+    <div>
+      <Leva titleBar={false} style={style} onMouseEnter={() => {
+        setIsHidden(false)
+        console.log('mouse enter')
+      }}
+            onMouseLeave={() => {
+              setIsHidden(true)
+              console.log('mouse leave!')
+            }} />
+    </div>
   )
 }

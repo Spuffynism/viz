@@ -1,10 +1,13 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Center, OrbitControls, Text3D } from '@react-three/drei'
 import { forwardRef, useContext, useRef, useState } from 'react'
-import { NowPlayingContext } from './NowPlayingContext'
+import { NowPlayingContext } from '../../NowPlayingContext'
 import { useSpring, animated, config } from '@react-spring/three'
+import InfoText from '../shared/InfoText'
+import useCorners from '../shared/corners'
+import * as THREE from 'three'
 
-export default function SpinningViz() {
+export default function Spinning() {
   const song = useContext(NowPlayingContext)
   return (
     <Canvas orthographic camera={{ position: [0, 0, 100], zoom: 80 }}>
@@ -20,12 +23,9 @@ export default function SpinningViz() {
 
 function Scene({ margin = 0.5, song }) {
   const { width, height } = useThree((state) => state.viewport)
-  const position = {
-    left: -width / 2 + margin,
-    right: width / 2 - margin,
-    top: height / 2 - margin,
-    bottom: -height / 2 + margin
-  }
+  const scene = useThree((state) => state.scene)
+  scene.background = new THREE.Color('rgb(113,118,124)')
+  const corners = useCorners({ width, height }, margin)
 
   const groupRef = useRef()
   const [artistRef, otherArtistRef, songRef, otherSongRef] = [useRef(), useRef(), useRef(), useRef()]
@@ -43,16 +43,16 @@ function Scene({ margin = 0.5, song }) {
 
   return (
     <group ref={groupRef}>
-      <InfoText bottom right position={[position.left, position.top, 0]} ref={artistRef}>
+      <InfoText bottom right position={[corners.left, corners.top, 0]} ref={artistRef}>
         {song.artist}
       </InfoText>
-      <InfoText bottom left position={[position.left, position.top, 0]} rotation={[0, Math.PI, 0]} ref={otherArtistRef}>
+      <InfoText bottom left position={[corners.left, corners.top, 0]} rotation={[0, Math.PI, 0]} ref={otherArtistRef}>
         {song.artist}
       </InfoText>
-      <InfoText top left position={[position.right, position.bottom, 0]} ref={songRef}>
+      <InfoText top left position={[corners.right, corners.bottom, 0]} ref={songRef}>
         {song.album}
       </InfoText>
-      <InfoText top right position={[position.right, position.bottom, 0]} rotation={[0, Math.PI, 0]} ref={otherSongRef}>
+      <InfoText top right position={[corners.right, corners.bottom, 0]} rotation={[0, Math.PI, 0]} ref={otherSongRef}>
         {song.album}
       </InfoText>
       <Title>
@@ -61,17 +61,6 @@ function Scene({ margin = 0.5, song }) {
     </group>
   )
 }
-
-const InfoText = forwardRef(({ children, ...props }, ref) => {
-  return (
-    <Center {...props} ref={ref}>
-      <Text3D letterSpacing={-0.01} size={0.5} font='/Inter_Bold.json'>
-        {children}
-        <meshStandardMaterial color='white' />
-      </Text3D>
-    </Center>
-  )
-})
 
 function Title({ children }) {
   const titleMesh = useRef()
