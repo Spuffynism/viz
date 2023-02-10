@@ -10,6 +10,7 @@ import vertexShader from './vertexShader'
 import fragmentShader from './fragmentShader'
 
 export default function Dispersion() {
+  console.log('mount dispersion')
   return (
     <>
       <Canvas camera={{ position: [4, -2, 7] }} dpr={[1, 2]}>

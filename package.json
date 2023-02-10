@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@react-spring/web": "^9.6.1"
+    "@react-three/drei": "^9.56.21"
   }
 }

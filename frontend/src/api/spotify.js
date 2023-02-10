@@ -1,10 +1,14 @@
 import { useAccessToken } from '../useAccessToken'
 
+const refreshToken = () => {
+  window.location.href = 'http://localhost:8888/login'
+}
+
 export const getNowPlaying = async () => {
   const accessToken = useAccessToken()
 
   if (!accessToken) {
-    window.location.href = 'http://localhost:8888/login'
+    refreshToken()
   }
 
   const response = await fetch("https://api.spotify.com/v1/me/player/currently-playing",
@@ -17,8 +21,19 @@ export const getNowPlaying = async () => {
     })
 
   if (response.status === 401) {
-    window.location.href = 'http://localhost:8888/login'
+    refreshToken()
   }
 
-  return response
+  let body
+  try {
+    body = await response.json()
+  } catch (e) {
+    throw e
+  }
+
+  if (!body) {
+    throw new Error('Couldn\'t fetch now playing' + response)
+  }
+
+  return body
 }

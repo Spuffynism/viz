@@ -8,15 +8,13 @@ import useCorners from '../shared/corners'
 import * as THREE from 'three'
 
 export default function Spinning() {
+  console.log('mount spinning')
   const song = useContext(NowPlayingContext)
   return (
     <Canvas orthographic camera={{ position: [0, 0, 100], zoom: 80 }}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 10]} />
       <Scene song={song} />
-      {/*<axesHelper scale={2} position={[0, 0, 0]} onUpdate={(self) => self.setColors('#ff2080', '#20ff80', '#2080ff')} />*/}
-      <OrbitControls enabled={false} enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2}
-                     maxPolarAngle={Math.PI / 2} />
     </Canvas>
   )
 }
@@ -24,7 +22,7 @@ export default function Spinning() {
 function Scene({ margin = 0.5, song }) {
   const { width, height } = useThree((state) => state.viewport)
   const scene = useThree((state) => state.scene)
-  scene.background = new THREE.Color('rgb(113,118,124)')
+  scene.background = new THREE.Color('rgb(85,88,93)')
   const corners = useCorners({ width, height }, margin)
 
   const groupRef = useRef()
@@ -64,16 +62,15 @@ function Scene({ margin = 0.5, song }) {
 
 function Title({ children }) {
   const titleMesh = useRef()
-  const [active, setActive] = useState(false)
   const { scale } = useSpring({
-    scale: active ? 0.1 : 1,
-    config: config.wobbly
+    from: { scale: [0, 0, 0] },
+    to: { scale: [1, 1, 1] },
+    leave: { scale: [0, 0, 0] },
+    config: {duration: 5500, ...config.gentle},
   })
 
   return (
-    <animated.mesh scale={scale} onClick={() => {
-      setActive(!active)
-    }} ref={titleMesh}>
+    <animated.mesh scale={scale} ref={titleMesh}>
       <Center rotation={[-0.30, -0.25, 0]}>
         <Text3D
           curveSegments={32}

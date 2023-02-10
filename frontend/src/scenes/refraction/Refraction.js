@@ -1,6 +1,6 @@
 import { OrbitControls, useFBO, Float, useGLTF, Text } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Leva, useControls } from 'leva'
+import { useControls } from 'leva'
 import { useMemo, useRef, Suspense, useContext } from 'react'
 import * as THREE from 'three'
 
@@ -9,6 +9,7 @@ import fragmentShader from './fragmentShader'
 import { NowPlayingContext } from '../../NowPlayingContext'
 
 export default function Refraction() {
+  console.log('mount refraction')
   const song = useContext(NowPlayingContext)
   return (
     <>

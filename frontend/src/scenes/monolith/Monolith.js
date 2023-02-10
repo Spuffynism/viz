@@ -1,7 +1,7 @@
-import { OrbitControls, useFBO, Float, useGLTF, Text, Text3D, Center } from '@react-three/drei'
+import { useFBO, Float, useGLTF, Text, Center, Text3D } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Leva, useControls } from 'leva'
-import { useMemo, useRef, Suspense, useContext } from 'react'
+import { useControls } from 'leva'
+import { useMemo, useRef, useContext } from 'react'
 import * as THREE from 'three'
 
 import vertexShader from '../refraction/vertexShader'
@@ -10,15 +10,14 @@ import { NowPlayingContext } from '../../NowPlayingContext'
 import useCorners from '../shared/corners'
 
 export default function Monolith() {
+  console.log('mount monolith')
   const song = useContext(NowPlayingContext)
   return (
-    <>
-      <Canvas gl={{ antialias: true, stencil: false }} camera={{ position: [0, 0, 11], fov: 50 }} dpr={[1, 2]}>
-        <ambientLight intensity={1.0} />
-        <directionalLight position={[1, 5, 4]} intensity={4} />
-        <Geometries song={song} />
-      </Canvas>
-    </>
+    <Canvas gl={{ antialias: true, stencil: false }} camera={{ position: [0, 0, 11], fov: 50 }} dpr={[1, 2]}>
+      <ambientLight intensity={1.0} />
+      <directionalLight position={[1, 5, 4]} intensity={4} />
+      <Geometries song={song} />
+    </Canvas>
   )
 }
 
@@ -48,8 +47,7 @@ const Geometries = ({ song }) => {
     transparent: { value: .2, min: 0, max: 1, step: .01 }
   })
 
-  useFrame((state) => {
-    const { gl, scene, camera } = state
+  useFrame(({ gl, scene, camera }) => {
     mesh.current.material.uniforms.winResolution.value =
       new THREE.Vector2(window.innerWidth, window.innerHeight)
         .multiplyScalar(Math.min(window.devicePixelRatio, 2))
@@ -61,60 +59,56 @@ const Geometries = ({ song }) => {
     gl.setRenderTarget(null)
   })
 
-  const shader = (
-    <mesh ref={mesh} scale={.1} geometry={nodes.Monolith.geometry}>
-      <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        wireframe={false}
-        transparent={true}
-      />
-    </mesh>
-  )
+  const items = [
+    { key: 'first', position: [-2.5, -.5, 0] },
+    { key: 'second', position: [0, .4, -1] },
+    { key: 'third', position: [2.5, 1, -2] }
+  ]
 
   return (
     <>
-      <Suspense fallback={null}>
-        <Float key={'first'} position={[-2.5, -.5, 0]}
-               speed={2}
-               rotationIntensity={4}
-               floatIntensity={2}>
-          {shader}
-        </Float>
-        <Float key={'second'} position={[0, .4, -1]} speed={2} rotationIntensity={4} floatIntensity={2}>
-          {shader}
-        </Float>
-        <Float key={'third'} position={[2.5, 1, -2]} speed={2} rotationIntensity={4} floatIntensity={2}>
-          {shader}
-        </Float>
-      </Suspense>
-      <Text
-        color={'black'}
-        font={'SpaceGrotesk-Medium.ttf'}
-        position={[0, 0, -4]}
-        scale={10}
-        rotation={[0, 0, 0]}>
-        {song.title}
-      </Text>
+      {items.map(itemProps => (
+          <Float speed={2} rotationIntensity={4} floatIntensity={2} {...itemProps}>
+            <mesh ref={mesh} scale={.1} geometry={nodes.Monolith.geometry}>
+              <shaderMaterial
+                vertexShader={vertexShader}
+                fragmentShader={fragmentShader}
+                uniforms={uniforms}
+                wireframe={false}
+                transparent={true}
+              />
+            </mesh>
+          </Float>
+        )
+      )}
+      <Center position={[0, 0, -4]}>
+        <BlackText scale={6}>
+          {song.title}
+          <meshStandardMaterial color={'black'} />
+        </BlackText>
+      </Center>
       <Center bottom right position={[corners.left, corners.top, 0]}>
-        <Text
-          color={'black'}
-          font={'SpaceGrotesk-Medium.ttf'}
-          scale={4}
-          rotation={[0, 0, 0]}>
+        <BlackText scale={4}>
           {song.artist}
-        </Text>
+          <meshStandardMaterial color={'black'} />
+        </BlackText>
       </Center>
       <Center top left position={[corners.right, corners.bottom, 0]}>
-        <Text
-          color={'black'}
-          font={'SpaceGrotesk-Medium.ttf'}
-          scale={4}
-          rotation={[0, 0, 0]}>
+        <BlackText scale={4}>
           {song.album}
-        </Text>
+          <meshStandardMaterial color={'black'} />
+        </BlackText>
       </Center>
     </>
   )
 }
+
+const BlackText = ({children, ...props}) => (
+  <Text3D
+    height={0}
+    letterSpacing={-0.01} size={0.1}
+    font={'Space Grotesk Medium_Regular.json'}
+    {...props}>
+    {children}
+  </Text3D>
+)

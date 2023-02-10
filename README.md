@@ -2,6 +2,14 @@
 
 Fun vizzes for you and all your friends!
 
+TODO:
+- [ ] Make the scene transition between songs automatic
+- [ ] Fix the state not updating properly
+- [ ] Add transitions to scenes (fade in/out)
+- [ ] Figure out why Suspense doesn't work
+- [ ] Make the controls show/hide on hover
+- [ ] (Optionally) Add mount transitions
+
 - Refraction: https://r3f.maximeheckel.com/refraction
 - Grass: https://codesandbox.io/s/ehflx3?file=/src/index.js
 - Examples: https://docs.pmnd.rs/react-three-fiber/getting-started/examples
@@ -10,6 +18,15 @@ Fun vizzes for you and all your friends!
 - https://codesandbox.io/s/ju368j
 - https://codesandbox.io/s/lxvqek?file=/src/App.js
 - transitions example: https://codesandbox.io/s/1sccp?file=/src/App.js:2332-2337
+- egg yolk: https://codesandbox.io/s/5oufp?file=/src/Scene.js:1943-1990
+- color on black backgorund: https://codesandbox.io/s/ledhe1?file=/src/App.js:605-615
+- viz with pink/redish background, transparent bunnies falling in background, and text Floating in front
+- it would be cool to have a nice scenery of rock letters as blocks placed on a field of plants+grass
+- viz with events (little guy periodically coming into frame and walking)
+- viz with progress_ms
+
+Add a small `viz @ v0.0.1` to the bottom left corner with text who'se color is opposite of the background color.
+
 
 Use react-spring for transitionning stuff!
 https://discoverthreejs.com/tips-and-tricks/
