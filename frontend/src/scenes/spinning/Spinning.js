@@ -29,7 +29,7 @@ export default function Spinning() {
 function Scene({ margin = 0.5, song }) {
   const { width, height } = useThree((state) => state.viewport)
   const scene = useThree((state) => state.scene)
-  scene.background = new THREE.Color('rgb(85,88,93)')
+  scene.background = new THREE.Color('rgb(59,61,65)')
   const corners = useCorners({ width, height }, margin)
 
   const groupRef = useRef()
