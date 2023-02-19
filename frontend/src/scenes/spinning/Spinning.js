@@ -1,20 +1,27 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
 import { Center, OrbitControls, Text3D } from '@react-three/drei'
-import { forwardRef, useContext, useRef, useState } from 'react'
+import { forwardRef, useContext, useEffect, useRef, useState } from 'react'
 import { NowPlayingContext } from '../../NowPlayingContext'
 import { useSpring, animated, config } from '@react-spring/three'
 import InfoText from '../shared/InfoText'
 import useCorners from '../shared/corners'
 import * as THREE from 'three'
+import { EffectComposer, Vignette } from '@react-three/postprocessing'
 
 export default function Spinning() {
   console.log('mount spinning')
-  const song = useContext(NowPlayingContext)
+  const { song } = useContext(NowPlayingContext)
+
   return (
     <Canvas orthographic camera={{ position: [0, 0, 100], zoom: 80 }}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 10]} />
       <Scene song={song} />
+      <gridHelper args={[100, 74, 'hotpink', '#9d9d9d']} position={[0, 0, -10]} rotation={[0, 1, -Math.PI / 4]} />
+      <fog attach="fog" color="black" near={1} far={500} />
+      <EffectComposer multisampling={0} disableNormalPass={true}>
+        <Vignette eskil={false} offset={0.1} darkness={0.6} />
+      </EffectComposer>
     </Canvas>
   )
 }

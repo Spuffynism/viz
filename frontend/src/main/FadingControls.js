@@ -9,7 +9,7 @@ import { Leva } from 'leva'
 const FadingControls = () => {
   return (
     <div className={'fading-controls'}>
-      <Leva titleBar={false} neverHide={true} />
+      <Leva titleBar={false} neverHide={true} hidden={false} />
     </div>
   )
 }

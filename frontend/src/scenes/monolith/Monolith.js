@@ -1,7 +1,7 @@
-import { useFBO, Float, useGLTF, Text, Center, Text3D } from '@react-three/drei'
+import { useFBO, Float, useGLTF, Text, Center, Text3D, Loader } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useControls } from 'leva'
-import { useMemo, useRef, useContext } from 'react'
+import { useMemo, useRef, useContext, Suspense } from 'react'
 import * as THREE from 'three'
 
 import vertexShader from '../refraction/vertexShader'
@@ -11,17 +11,22 @@ import useCorners from '../shared/corners'
 
 export default function Monolith() {
   console.log('mount monolith')
-  const song = useContext(NowPlayingContext)
+  const { song, startEpoch } = useContext(NowPlayingContext)
   return (
-    <Canvas gl={{ antialias: true, stencil: false }} camera={{ position: [0, 0, 11], fov: 50 }} dpr={[1, 2]}>
-      <ambientLight intensity={1.0} />
-      <directionalLight position={[1, 5, 4]} intensity={4} />
-      <Geometries song={song} />
-    </Canvas>
+    <>
+      <Canvas gl={{ antialias: true, stencil: false }} camera={{ position: [0, 0, 11], fov: 50 }} dpr={[1, 2]}>
+        <ambientLight intensity={1.0} />
+        <directionalLight position={[1, 5, 4]} intensity={4} />
+        <Suspense fallback={null}>
+          <Geometries song={song} startEpoch={startEpoch} />
+        </Suspense>
+      </Canvas>
+      <Loader />
+    </>
   )
 }
 
-const Geometries = ({ song }) => {
+const Geometries = ({ song, startEpoch }) => {
   const mesh = useRef()
   const scene = useThree((state) => state.scene)
   scene.background = new THREE.Color('#f1f1f5')
@@ -42,9 +47,10 @@ const Geometries = ({ song }) => {
     }
   }), [])
 
-  const { refractPower, transparent } = useControls({
+  const { refractPower, transparent, p } = useControls({
     refractPower: { value: .3, min: 0, max: 1, step: .01 },
-    transparent: { value: .2, min: 0, max: 1, step: .01 }
+    transparent: { value: .2, min: 0, max: 1, step: .01 },
+    p: { value: 0, min: -10, max: 10, step: 1}
   })
 
   useFrame(({ gl, scene, camera }) => {
@@ -60,9 +66,9 @@ const Geometries = ({ song }) => {
   })
 
   const items = [
-    { key: 'first', position: [-2.5, -.5, 0] },
-    { key: 'second', position: [0, .4, -1] },
-    { key: 'third', position: [2.5, 1, -2] }
+    { key: 'first', position: [-2.5, -.5, p] },
+    { key: 'second', position: [0, 0, -1] },
+    { key: 'third', position: [2.5, 0.5, -2] }
   ]
 
   return (
@@ -84,31 +90,29 @@ const Geometries = ({ song }) => {
       <Center position={[0, 0, -4]}>
         <BlackText scale={6}>
           {song.title}
-          <meshStandardMaterial color={'black'} />
         </BlackText>
       </Center>
       <Center bottom right position={[corners.left, corners.top, 0]}>
         <BlackText scale={4}>
           {song.artist}
-          <meshStandardMaterial color={'black'} />
         </BlackText>
       </Center>
       <Center top left position={[corners.right, corners.bottom, 0]}>
         <BlackText scale={4}>
           {song.album}
-          <meshStandardMaterial color={'black'} />
         </BlackText>
       </Center>
     </>
   )
 }
 
-const BlackText = ({children, ...props}) => (
+export const BlackText = ({children, ...props}) => (
   <Text3D
     height={0}
     letterSpacing={-0.01} size={0.1}
     font={'Space Grotesk Medium_Regular.json'}
     {...props}>
     {children}
+    <meshStandardMaterial color={'black'} />
   </Text3D>
 )

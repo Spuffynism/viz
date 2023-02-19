@@ -1,17 +1,45 @@
 import FadingControls from './FadingControls'
 import { useControls } from 'leva'
+import { useContext, useEffect, useState } from 'react'
+import { NowPlayingContext } from '../NowPlayingContext'
 
-const SceneSwitcher = ({ scenes, activeScene }) => {
-  const { scene } = useControls({
-    scene: { options: Object.keys(scenes), value: activeScene }
-  })
+const SceneSwitcher = ({ scenes, changeWithSong = false }) => {
+  const sceneMap = scenes.reduce((acc, v) => ({ ...acc, [v.name]: v }), {})
+  const sceneNames = Object.keys(sceneMap)
+  const [activeScene, setActiveScene] = useState(sceneNames[0])
+
+  const { song } = useContext(NowPlayingContext)
+
+  const [{ scene }, set] = useControls(() => ({
+    scene: { options: sceneNames, value: activeScene }
+  }))
+
+  useEffect(() => {
+    if (!changeWithSong) {
+      return
+    }
+
+    const scene = nextScene(sceneNames, activeScene)
+    setActiveScene(scene)
+
+    set({ scene })
+  }, [song])
+
+  const Scene = sceneMap[scene]
 
   return (
     <>
       <FadingControls />
-      {scenes[scene]}
+      <Scene />
     </>
   )
+}
+
+const nextScene = (sceneNames, activeScene) => {
+  const currentScenePosition = sceneNames.indexOf(activeScene)
+  const nextScenePosition = (currentScenePosition + 1) % sceneNames.length
+
+  return sceneNames[nextScenePosition]
 }
 
 export default SceneSwitcher;

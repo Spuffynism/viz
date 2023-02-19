@@ -28,7 +28,7 @@ export const getNowPlaying = async () => {
   try {
     body = await response.json()
   } catch (e) {
-    throw e
+    return
   }
 
   if (!body) {

@@ -10,7 +10,7 @@ import { NowPlayingContext } from '../../NowPlayingContext'
 
 export default function Refraction() {
   console.log('mount refraction')
-  const song = useContext(NowPlayingContext)
+  const { song, startEpoch } = useContext(NowPlayingContext)
   return (
     <>
       <Canvas gl={{ antialias: true, stencil: false }} camera={{ position: [0, 0, 11], fov: 25 }} dpr={[1, 2]}>
@@ -98,12 +98,6 @@ const Geometries = ({ song }) => {
               wireframe={false}
               transparent={true}
             />
-          </mesh>
-        </Float>
-        <Float position={[0, 0, -2]} speed={2} rotationIntensity={2} floatIntensity={2}>
-          <mesh position={[0, 2, -2]} scale={1}>
-            <sphereGeometry/>
-            <meshStandardMaterial color={new THREE.Color('#FFFFFF')}/>
           </mesh>
         </Float>
       </Suspense>

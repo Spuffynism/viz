@@ -3,12 +3,13 @@
 Fun vizzes for you and all your friends!
 
 TODO:
-- [ ] Make the scene transition between songs automatic
-- [ ] Fix the state not updating properly
+- [x] Make the scene transition between songs automatic
+- [x] Fix the state not updating properly
 - [ ] Add transitions to scenes (fade in/out)
 - [ ] Figure out why Suspense doesn't work
 - [ ] Make the controls show/hide on hover
 - [ ] (Optionally) Add mount transitions
+- [ ] use ascii renderer
 
 - Refraction: https://r3f.maximeheckel.com/refraction
 - Grass: https://codesandbox.io/s/ehflx3?file=/src/index.js
@@ -24,6 +25,12 @@ TODO:
 - it would be cool to have a nice scenery of rock letters as blocks placed on a field of plants+grass
 - viz with events (little guy periodically coming into frame and walking)
 - viz with progress_ms
+- terrain: https://threlte.xyz/examples/terrain
+- UseControls.Component for easier controls
+  - https://github.com/pmndrs/react-spring/blob/master/targets/three/src/index.ts
+- Big white letters on read background
+  - Textured letters
+  - Textured background
 
 Add a small `viz @ v0.0.1` to the bottom left corner with text who'se color is opposite of the background color.
 

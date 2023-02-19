@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { DEFAULT_NOW_PLAYING, NowPlayingContext } from './NowPlayingContext'
 import { getNowPlaying } from './api/spotify'
 import Spinning from './scenes/spinning/Spinning'
@@ -7,43 +7,50 @@ import Refraction from './scenes/refraction/Refraction'
 import Monolith from './scenes/monolith/Monolith'
 import SceneSwitcher from './main/SceneSwitcher'
 import useInterval from './main/useInterval'
+import Ascii from './scenes/ascii/Ascii'
 
 export default function App() {
   const [nowPlaying, setNowPlaying] = useState(DEFAULT_NOW_PLAYING)
 
-  continuouslyRefreshSong(nowPlaying, setNowPlaying)
+  continuouslyRefreshSong(nowPlaying.song, setNowPlaying)
 
-  const scenes = {
-    spinning: <Spinning />,
-    dispersion: <Dispersion />,
-    refraction: <Refraction />,
-    monolith: <Monolith />
-  }
+  const scenes = [
+    Ascii,
+    Spinning,
+    Refraction,
+    Monolith
+  ]
 
   return (
     <NowPlayingContext.Provider value={nowPlaying}>
-      <SceneSwitcher scenes={scenes} activeScene={'monolith'} />
+      <SceneSwitcher scenes={scenes} />
     </NowPlayingContext.Provider>
   )
 }
 
-const continuouslyRefreshSong = (nowPlaying, setNowPlaying) => {
+const continuouslyRefreshSong = (oldSong, setNowPlaying, setProgressMs) => {
   const refreshSong = async () => {
-    const { item } = await getNowPlaying()
+    const nowPlaying = await getNowPlaying()
 
-    const newNowPlaying = {
-      album: item.album.name,
-      artist: item.artists[0].name,
-      title: item.name
-      //durationMs: body.item.duration_ms,
-      //progressMs: body.progress_ms
+    if (!nowPlaying) {
+      return
     }
 
-    const songChanged = Object.keys(newNowPlaying).some((key) => newNowPlaying[key] !== nowPlaying[key])
+    const newSong = {
+      album: nowPlaying.item.album.name,
+      artist: nowPlaying.item.artists[0].name,
+      title: nowPlaying.item.name,
+      durationMs: nowPlaying.item.duration_ms,
+    }
+
+    const songChanged = Object.keys(newSong).some((key) => newSong[key] !== oldSong[key])
     if (songChanged) {
-      setNowPlaying(newNowPlaying)
+      setNowPlaying({
+        song: newSong,
+        startEpoch: nowPlaying.timestamp
+      })
     }
   }
 
-  useInterval(refreshSong, { delay: 2_000, executeImmediately: true })
+  useInterval(refreshSong, { delay: 1_000, executeImmediately: true })
 }
