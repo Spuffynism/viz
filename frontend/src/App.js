@@ -2,12 +2,11 @@ import { useState } from 'react'
 import { DEFAULT_NOW_PLAYING, NowPlayingContext } from './NowPlayingContext'
 import { getNowPlaying } from './api/spotify'
 import Spinning from './scenes/spinning/Spinning'
-import Dispersion from './scenes/dispersion/Dispersion'
-import Refraction from './scenes/refraction/Refraction'
 import Monolith from './scenes/monolith/Monolith'
 import SceneSwitcher from './main/SceneSwitcher'
 import useInterval from './main/useInterval'
 import Ascii from './scenes/ascii/Ascii'
+import config from './config'
 
 export default function App() {
   const [nowPlaying, setNowPlaying] = useState(DEFAULT_NOW_PLAYING)
@@ -17,13 +16,12 @@ export default function App() {
   const scenes = [
     Ascii,
     Spinning,
-    Refraction,
     Monolith
   ]
 
   return (
     <NowPlayingContext.Provider value={nowPlaying}>
-      <SceneSwitcher scenes={scenes} />
+      <SceneSwitcher scenes={scenes} changeWithSong={config.changeWithSong}/>
     </NowPlayingContext.Provider>
   )
 }

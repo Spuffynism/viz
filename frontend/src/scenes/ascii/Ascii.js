@@ -4,11 +4,15 @@ import { Center, OrbitControls, Text, Text3D } from '@react-three/drei'
 import { NowPlayingContext } from '../../NowPlayingContext'
 import { AsciiEffect } from './AsciiEffect'
 import './scene.css'
+import FadeIn from '../shared/FadeIn'
 
+// TODO: FadeIn works, but it should be on top of canvas to work with all scenes
+// OR, maybe scenes should individually define their fade in transition
 export default function Ascii() {
   const { song, startEpoch } = useContext(NowPlayingContext)
 
-  const characters = ' ' + song.title
+  //const characters = ' ' + song.title
+  const characters = ' o-!"/$%?&*()_+'
   return (<>
     <Canvas camera={{ position: [0, 0, 1] }}>
       <color attach='background' args={['black']} />
@@ -17,6 +21,7 @@ export default function Ascii() {
       <TorusKnot />
       <OrbitControls />
       <AsciiRenderer fgColor='red' bgColor='black' characters={characters} />
+      {/*<FadeIn />*/}
     </Canvas>
     <Overlay song={song} />
   </>)
