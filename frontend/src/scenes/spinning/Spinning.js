@@ -6,7 +6,7 @@ import { useSpring, animated, config } from '@react-spring/three'
 import InfoText from '../shared/InfoText'
 import useCorners from '../shared/corners'
 import * as THREE from 'three'
-import { EffectComposer, Vignette } from '@react-three/postprocessing'
+import { EffectComposer, Noise, Vignette } from '@react-three/postprocessing'
 
 export default function Spinning() {
   console.log('mount spinning')
@@ -18,11 +18,25 @@ export default function Spinning() {
       <directionalLight position={[10, 10, 10]} />
       <Scene song={song} />
       <gridHelper args={[100, 74, 'hotpink', '#9d9d9d']} position={[0, 0, -10]} rotation={[0, 1, -Math.PI / 4]} />
-      <fog attach="fog" color="black" near={1} far={500} />
-      <EffectComposer multisampling={0} disableNormalPass={true}>
-        <Vignette eskil={false} offset={0.1} darkness={0.6} />
-      </EffectComposer>
+      <Filter />
     </Canvas>
+  )
+}
+
+function Filter({ duration = 2000 }) {
+  const AnimatedVignette = animated(Vignette)
+  const vignetteMesh = useRef()
+  const { darkness } = useSpring({
+    from: { darkness: 0.75 },
+    to: { darkness: 0.6 },
+    config: {duration, ...config.gentle},
+  })
+
+  return (
+    <EffectComposer multisampling={0} disableNormalPass={true}>
+      <Noise opacity={0.15} />
+      <AnimatedVignette ref={vignetteMesh} eskil={true} offset={0.1} darkness={darkness} />
+    </EffectComposer>
   )
 }
 

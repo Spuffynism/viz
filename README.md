@@ -31,6 +31,11 @@ TODO:
 - Big white letters on read background
   - Textured letters
   - Textured background
+- https://badnewsfirst.co/ - white letters on red background
+- black shapes in front of white, with blur on top https://www.facebook.com/photo/?fbid=1508338869697553&set=gm.10159258621583030&idorvanity=4884833029
+- sparkly viz, like sparkles glued to 3d letters
+- Implement audio analysis: https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-analysis
+- Might need to use `exitBeforeEnter`: https://codesandbox.io/s/1t9hh
 
 Add a small `viz @ v0.0.1` to the bottom left corner with text who'se color is opposite of the background color.
 

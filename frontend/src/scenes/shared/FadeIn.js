@@ -1,9 +1,9 @@
 import { useRef } from 'react'
 import { animated, config, useSpring } from '@react-spring/three'
 
-const FROM = 40;
+const FROM = 500;
 
-export default function FadeIn({ children, duration = 1000 }) {
+export default function FadeIn({ duration = 1000 }) {
   const fogMesh = useRef()
   const { near } = useSpring({
     from: { near: FROM },
@@ -13,6 +13,6 @@ export default function FadeIn({ children, duration = 1000 }) {
   })
 
   return (
-    <animated.fog ref={fogMesh} attach="fog" args={['#17171b', FROM, 0]} near={near} />
+    <animated.fog ref={fogMesh} attach="fog" args={['#17171b', FROM, 500]} near={near} />
   )
 }

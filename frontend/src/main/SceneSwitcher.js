@@ -3,10 +3,10 @@ import { useControls } from 'leva'
 import { useContext, useEffect, useState } from 'react'
 import { NowPlayingContext } from '../NowPlayingContext'
 
-const SceneSwitcher = ({ scenes, changeWithSong = false }) => {
+const SceneSwitcher = ({ scenes, changeWithSong = false, startScene = null }) => {
   const sceneMap = scenes.reduce((acc, v) => ({ ...acc, [v.name]: v }), {})
   const sceneNames = Object.keys(sceneMap)
-  const [activeScene, setActiveScene] = useState(sceneNames[0])
+  const [activeScene, setActiveScene] = useState(startScene || sceneNames[0])
 
   const { song } = useContext(NowPlayingContext)
 

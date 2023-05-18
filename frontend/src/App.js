@@ -1,27 +1,20 @@
 import { useState } from 'react'
 import { DEFAULT_NOW_PLAYING, NowPlayingContext } from './NowPlayingContext'
-import { getNowPlaying } from './api/spotify'
-import Spinning from './scenes/spinning/Spinning'
-import Monolith from './scenes/monolith/Monolith'
+import { getAudioAnalysis, getNowPlaying } from './api/spotify'
 import SceneSwitcher from './main/SceneSwitcher'
 import useInterval from './main/useInterval'
-import Ascii from './scenes/ascii/Ascii'
 import config from './config'
 
 export default function App() {
   const [nowPlaying, setNowPlaying] = useState(DEFAULT_NOW_PLAYING)
 
-  continuouslyRefreshSong(nowPlaying.song, setNowPlaying)
+  const audioAnalysis = getAudioAnalysis("0aRPJ7iHzvO7ZSMSlTC2ZH")
 
-  const scenes = [
-    Ascii,
-    Spinning,
-    Monolith
-  ]
+  continuouslyRefreshSong(nowPlaying.song, setNowPlaying)
 
   return (
     <NowPlayingContext.Provider value={nowPlaying}>
-      <SceneSwitcher scenes={scenes} changeWithSong={config.changeWithSong}/>
+      <SceneSwitcher scenes={config.scenes} startScene={config.startScene} changeWithSong={config.changeWithSong} />
     </NowPlayingContext.Provider>
   )
 }

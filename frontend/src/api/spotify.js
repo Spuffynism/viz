@@ -37,3 +37,21 @@ export const getNowPlaying = async () => {
 
   return body
 }
+
+// https://open.spotify.com/track/0aRPJ7iHzvO7ZSMSlTC2ZH?si=9e89a361467940c6
+export const getAudioAnalysis = async (trackId) => {
+  const accessToken = useAccessToken()
+
+  if (!accessToken) {
+    refreshToken()
+  }
+
+  const response = await fetch(`https://api.spotify.com/v1/audio-analysis/${trackId}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+}

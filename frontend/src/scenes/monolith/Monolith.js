@@ -1,13 +1,16 @@
-import { useFBO, Float, useGLTF, Text, Center, Text3D, Loader } from '@react-three/drei'
+import { Center, Float, Loader, Text3D, useFBO, useGLTF } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useControls } from 'leva'
-import { useMemo, useRef, useContext, Suspense } from 'react'
+import { Suspense, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 import vertexShader from '../refraction/vertexShader'
 import fragmentShader from '../refraction/fragmentShader'
 import { NowPlayingContext } from '../../NowPlayingContext'
 import useCorners from '../shared/corners'
+import { EffectComposer, Glitch } from '@react-three/postprocessing'
+import { animated, config, useSpring } from '@react-spring/three'
+import { Vector2 } from 'three'
 
 export default function Monolith() {
   console.log('mount monolith')
@@ -17,12 +20,31 @@ export default function Monolith() {
       <Canvas gl={{ antialias: true, stencil: false }} camera={{ position: [0, 0, 11], fov: 50 }} dpr={[1, 2]}>
         <ambientLight intensity={1.0} />
         <directionalLight position={[1, 5, 4]} intensity={4} />
-        <Suspense fallback={null}>
-          <Geometries song={song} startEpoch={startEpoch} />
-        </Suspense>
+        <Geometries song={song} startEpoch={startEpoch} />
+        <GlitchArrival />
       </Canvas>
       <Loader />
     </>
+  )
+}
+
+const GlitchArrival = () => {
+  const AnimatedGlitch = animated(Glitch)
+  const glitchRef = useRef()
+  const [active, setActive] = useState(false)
+  const _ = useSpring({
+    from: { glitching: 1 },
+    to: { glitching: 0 },
+    onChange: ({ value }) => {
+      setActive(value.glitching > 0)
+    },
+    config: { duration: 2000, ...config.gentle }
+  })
+
+  return (
+    <EffectComposer multisampling={0} disableNormalPass={true}>
+      <AnimatedGlitch ref={glitchRef} delay={[0, 0]} duration={[0.1, 0.2]} strength={[0.01, 0.01]} active={active} />
+    </EffectComposer>
   )
 }
 
@@ -47,10 +69,9 @@ const Geometries = ({ song, startEpoch }) => {
     }
   }), [])
 
-  const { refractPower, transparent, p } = useControls({
+  const { refractPower, transparent } = useControls({
     refractPower: { value: .3, min: 0, max: 1, step: .01 },
-    transparent: { value: .2, min: 0, max: 1, step: .01 },
-    p: { value: 0, min: -10, max: 10, step: 1}
+    transparent: { value: .2, min: 0, max: 1, step: .01 }
   })
 
   useFrame(({ gl, scene, camera }) => {
@@ -66,7 +87,7 @@ const Geometries = ({ song, startEpoch }) => {
   })
 
   const items = [
-    { key: 'first', position: [-2.5, -.5, p] },
+    { key: 'first', position: [-2.5, -.5, 0] },
     { key: 'second', position: [0, 0, -1] },
     { key: 'third', position: [2.5, 0.5, -2] }
   ]
@@ -106,7 +127,7 @@ const Geometries = ({ song, startEpoch }) => {
   )
 }
 
-export const BlackText = ({children, ...props}) => (
+export const BlackText = ({ children, ...props }) => (
   <Text3D
     height={0}
     letterSpacing={-0.01} size={0.1}
