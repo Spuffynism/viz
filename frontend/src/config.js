@@ -4,13 +4,14 @@ import Monolith from './scenes/monolith/Monolith'
 
 const config = {
   showControls: true,
-  changeWithSong: false,
+  changeWithSong: true,
   scenes: [
     Ascii,
-    Spinning,
+    //Spinning,
     Monolith
   ],
-  startScene: Monolith.name
+  startScene: Monolith.name,
+  strategy: 'Spotify'
 }
 
 export default config;

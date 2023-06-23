@@ -3,14 +3,14 @@
 Fun vizzes for you and all your friends!
 
 TODO:
-- [x] Make the scene transition between songs automatic
-- [x] Fix the state not updating properly
 - [ ] Add transitions to scenes (fade in/out)
 - [ ] Figure out why Suspense doesn't work
 - [ ] Make the controls show/hide on hover
 - [ ] (Optionally) Add mount transitions
-- [ ] use ascii renderer
 
+
+Viz ideas:
+- Barbie
 - Refraction: https://r3f.maximeheckel.com/refraction
 - Grass: https://codesandbox.io/s/ehflx3?file=/src/index.js
 - Examples: https://docs.pmnd.rs/react-three-fiber/getting-started/examples
