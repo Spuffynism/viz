@@ -114,12 +114,16 @@ app.get('/now-playing', async (req, res) => {
   // Tell client to retry every 10 seconds if connection is lost
   res.write('retry: 10000\n\n');
 
-  detectNowPlaying()
+  const command = detectNowPlaying()
   setInterval(() => {
     const nowPlaying = getNowPlaying()
 
     res.write(`data: ${JSON.stringify(nowPlaying)}\n\n`)
   }, 1_000)
+
+  req.on('close', () => {
+    command.kill()
+  });
 })
 
 const PORT = process.env.PORT || 8888

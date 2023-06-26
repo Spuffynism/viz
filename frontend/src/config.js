@@ -1,16 +1,21 @@
 import Ascii from './scenes/ascii/Ascii'
-import Spinning from './scenes/spinning/Spinning'
 import Monolith from './scenes/monolith/Monolith'
+import Sparkling from './scenes/sparkling/Sparkling'
+import Goop from './scenes/goop/Goop'
 
 const config = {
   showControls: true,
-  changeWithSong: true,
+  changeWithSong: false,
   scenes: [
     Ascii,
     //Spinning,
-    Monolith
+    Monolith,
+    //Dispersion,
+    //Refraction,
+    Sparkling,
+    Goop
   ],
-  startScene: Monolith.name,
+  startScene: Goop.name,
   strategy: 'Spotify'
 }
 

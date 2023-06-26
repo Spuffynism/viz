@@ -1,4 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+/*@font-face {
+  font-family: 'VC Gooper';
+  src: url('https://assets.website-files.com/6388e4e99a19d3f5ea6fdf4e/639246ae10824641a80017e4_VCGooper-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'VC Gooper';
+  src: url('https://assets.website-files.com/6388e4e99a19d3f5ea6fdf4e/639246add5aabfc5298afc10_VCGooper-BlackItalic.woff2') format('woff2');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}*/
+@font-face {
+  font-family: 'VC Gooper Semi-Condensed';
+  src: url('https://assets.website-files.com/6388e4e99a19d3f5ea6fdf4e/6392477d42bd66577724519a_VCGooperSemiCondensed-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+/*@font-face {
+  font-family: 'VC Gooper Condensed';
+  src: url('https://assets.website-files.com/6388e4e99a19d3f5ea6fdf4e/6392477dbbdbc670a97eb313_VCGooperCondensed-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}*/
+
 * {
   box-sizing: border-box;
 }

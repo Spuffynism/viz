@@ -16,16 +16,6 @@ const setNowPlaying = ({ title, artist, album }) => {
   nowPlaying = { title, artist, album }
 }
 
-
-/*
-stderr data Using device MacBook Pro Microphone
-
-stderr data Recording started!
-
-data Metallica - Fade to Black
-
- */
-
 export function detectNowPlaying() {
   const command = spawn('songrec', ['listen', '--json', '--disable-mpris']);
 
@@ -44,7 +34,7 @@ export function detectNowPlaying() {
       console.log(e)
     }
     buffer = ''
-    let song = {
+    const song = {
       title: json.track.title,
       artist: json.track.subtitle,
       album: 'Unknown'
@@ -69,6 +59,8 @@ export function detectNowPlaying() {
   command.on('error', (error) => {
     console.log('error', error.message)
   });
+
+  return command
 }
 
 export const getNowPlaying = () => nowPlaying

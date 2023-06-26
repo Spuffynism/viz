@@ -1,7 +1,7 @@
 import { Center, Float, Loader, Text3D, useFBO, useGLTF } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useControls } from 'leva'
-import { Suspense, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import { useContext, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 import vertexShader from '../refraction/vertexShader'
@@ -10,10 +10,8 @@ import { NowPlayingContext } from '../../NowPlayingContext'
 import useCorners from '../shared/corners'
 import { EffectComposer, Glitch } from '@react-three/postprocessing'
 import { animated, config, useSpring } from '@react-spring/three'
-import { Vector2 } from 'three'
 
 export default function Monolith() {
-  console.log('mount monolith')
   const { song, startEpoch } = useContext(NowPlayingContext)
   return (
     <>
@@ -130,7 +128,8 @@ const Geometries = ({ song, startEpoch }) => {
 export const BlackText = ({ children, ...props }) => (
   <Text3D
     height={0}
-    letterSpacing={-0.01} size={0.1}
+    letterSpacing={-0.01}
+    size={0.1}
     font={'Space Grotesk Medium_Regular.json'}
     {...props}>
     {children}

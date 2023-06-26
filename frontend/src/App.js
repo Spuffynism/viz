@@ -5,7 +5,7 @@ import SceneSwitcher from './main/SceneSwitcher'
 import useInterval from './main/useInterval'
 import config from './config'
 import { useControls } from 'leva'
-import { useEventSource } from 'react-use-websocket'
+import { ReadyState, useEventSource } from 'react-use-websocket'
 
 const useNowPlaying = (initialState) => {
   const [nowPlaying, setNowPlaying] = useState(initialState)
@@ -42,7 +42,7 @@ export default function App() {
   })
 
   useEventSource(
-    'http://localhost:8888/now-playing',
+    strategy === 'SongRec' ? 'http://localhost:8888/now-playing' : null,
     {
       events: {
         message: (messageEvent) => {

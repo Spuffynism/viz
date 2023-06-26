@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react'
 
 export const DEFAULT_NOW_PLAYING = {
   song: {
@@ -11,3 +11,8 @@ export const DEFAULT_NOW_PLAYING = {
 }
 
 export const NowPlayingContext = createContext(DEFAULT_NOW_PLAYING);
+
+export const useSong = () => {
+  const { song } = useContext(NowPlayingContext)
+  return song
+}

@@ -10,6 +10,7 @@ TODO:
 
 
 Viz ideas:
+- Comic fonc (black solid outline, pale letters, letter height is color but darker)
 - Barbie
 - Refraction: https://r3f.maximeheckel.com/refraction
 - Grass: https://codesandbox.io/s/ehflx3?file=/src/index.js
@@ -43,3 +44,18 @@ Add a small `viz @ v0.0.1` to the bottom left corner with text who'se color is o
 Use react-spring for transitionning stuff!
 https://discoverthreejs.com/tips-and-tricks/
 
+
+https://blog.maximeheckel.com/posts/refraction-dispersion-and-other-shader-light-effects/
+
+3D pause and play signs that pop up and fade out
+
+Buttons become bigger on hover
+
+- Pause appears when we click
+- Play
+
+https://developer.spotify.com/documentation/web-api/reference/#/operations/get-the-users-currently-playing-track
+
+`progress_ms` could show a nice banner all around the screen that shows the progress: 🚧
+
+https://www.landingfolio.com/
