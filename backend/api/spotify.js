@@ -1,6 +1,6 @@
 import request from "request";
 
-const AUTH_HEADER = 'Basic ' + new Buffer(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64');
+const AUTH_HEADER = 'Basic ' + new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
 
 export const refreshToken = (refreshToken) => {
 

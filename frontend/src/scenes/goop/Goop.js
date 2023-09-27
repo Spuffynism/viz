@@ -3,7 +3,7 @@ import { Canvas, useThree } from '@react-three/fiber'
 import {
   Center,
   Icosahedron,
-  MeshDistortMaterial, Plane,
+  MeshDistortMaterial, OrbitControls, Plane,
   Text
 } from '@react-three/drei'
 import { useControls } from 'leva'
@@ -12,27 +12,7 @@ import * as THREE from 'three'
 import { Box, Flex, useReflow } from '@react-three/flex'
 
 const AnimatedText = animated(Text)
-const AnimatedPlane = animated(Plane)
-
-const normalizedExponentialDecay = (x) => {
-  return Math.E ** (-1 * (x / 150))
-}
-
-function TText({ textLength, children, ...props }) {
-  const reflow = useReflow()
-  const { viewport } = useThree()
-  console.log(textLength, 1/textLength)
-  return (
-    <AnimatedText
-      maxWidth={(viewport.width / 4) * 3}
-      fontSize={normalizedExponentialDecay(textLength)}
-      scale={1}
-      onSync={reflow}
-      {...props}>
-      {children}
-    </AnimatedText>
-  )
-}
+const AnimatedMeshDistortMaterial = animated(MeshDistortMaterial)
 
 export default function Goop() {
   const song = useSong()
@@ -43,7 +23,6 @@ export default function Goop() {
     dots: '#f25042'
   }
   const themes = [
-    //defaultTheme,
     {
       text: '#44348c',
       background: '#fef3e7',
@@ -56,7 +35,8 @@ export default function Goop() {
     },
     {
       ...defaultTheme,
-      background: '#008000'
+      background: '#7AA874',
+      dots: '#f65f52'
     },
     {
       ...defaultTheme,
@@ -85,13 +65,23 @@ export default function Goop() {
 
   // 313131
   // ffff7f
+  // <Canvas camera={{ position: [0,0, 0], zoom: 0.1 }}> looks fun
+  // orthographic camera={{ position: [0,0, 100], zoom: 150 }} works but isn't _quite_ right
+  // this light config is fun:
+  /*
+  <pointLight position={[-10, -10, -10]} />
+      <pointLight position={[0, 0, 0]} />
+      {/*<ambientLight intensity={1} />
+   */
   return (
     <Canvas>
+      <OrbitControls />
+      <pointLight position={[-10, -10, -10]} />
       <ambientLight intensity={1} />
-      <Plane args={[200, 40]} position={[0,0,-10]}>
+      <Plane args={[100, 40]} position={[0,0,-10]}>
         <animated.meshStandardMaterial color={background} />
       </Plane>
-      <MovingBlob position={[-8, -3, -2]} color={dots}/>
+      <MovingBlob position={[-8, -3, -2]} color={dots} speed={1.11}/>
       <MovingBlob position={[-3, 2, -2]} color={dots}/>
       <MovingBlob position={[0, -3, -3]} color={dots}/>
       <MovingBlob position={[4, 5, -2]} color={dots}/>
@@ -116,14 +106,32 @@ export default function Goop() {
   )
 }
 
-const AnimatedMeshDistortMaterial = animated(MeshDistortMaterial)
+const normalizedExponentialDecay = (x) => {
+  return Math.E ** (-1 * (x / 150))
+}
 
-const MovingBlob = ({color, ...props}) => {
+function TText({ textLength, children, ...props }) {
+  const reflow = useReflow()
+  const { viewport } = useThree()
+  console.log(textLength, 1/textLength)
+  return (
+    <AnimatedText
+      maxWidth={(viewport.width / 4) * 3}
+      fontSize={normalizedExponentialDecay(textLength)}
+      scale={1}
+      onSync={reflow}
+      {...props}>
+      {children}
+    </AnimatedText>
+  )
+}
+
+const MovingBlob = ({color, speed = 1, ...props}) => {
   return (
     <Icosahedron args={[1, 15]} {...props}>
       <AnimatedMeshDistortMaterial
         color={color}
-        speed={1}
+        speed={speed}
         distort={0.6}
         radius={1}
       />

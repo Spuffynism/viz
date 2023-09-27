@@ -1,61 +1,42 @@
-# 💥viz
+# 💥 viz
 
-Fun vizzes for you and all your friends!
+viz is a music visualiser. It works with Spotify, or though a microphone with [SongRec](https://github.com/marin-m/SongRec).
 
-TODO:
-- [ ] Add transitions to scenes (fade in/out)
-- [ ] Figure out why Suspense doesn't work
-- [ ] Make the controls show/hide on hover
-- [ ] (Optionally) Add mount transitions
+<p>
+  <img width="30%" src="screenshots/wireframe.png" alt="Wireframe visualization"/>
+  <img width="30%" src="screenshots/ascii.png" alt="Ascii visualization"/>
+</p>
 
+## Usage
 
-Viz ideas:
-- Comic fonc (black solid outline, pale letters, letter height is color but darker)
-- Barbie
-- Refraction: https://r3f.maximeheckel.com/refraction
-- Grass: https://codesandbox.io/s/ehflx3?file=/src/index.js
-- Examples: https://docs.pmnd.rs/react-three-fiber/getting-started/examples
-- Loading bunny: https://codesandbox.io/s/using-render-texture-through-decals-forked-x0hxjy?file=/src/App.js:749-754
-- More refraction: https://twitter.com/0xca0a/status/1618265163995709440
-- https://codesandbox.io/s/ju368j
-- https://codesandbox.io/s/lxvqek?file=/src/App.js
-- transitions example: https://codesandbox.io/s/1sccp?file=/src/App.js:2332-2337
-- egg yolk: https://codesandbox.io/s/5oufp?file=/src/Scene.js:1943-1990
-- color on black backgorund: https://codesandbox.io/s/ledhe1?file=/src/App.js:605-615
-- viz with pink/redish background, transparent bunnies falling in background, and text Floating in front
-- it would be cool to have a nice scenery of rock letters as blocks placed on a field of plants+grass
-- viz with events (little guy periodically coming into frame and walking)
-- viz with progress_ms
-- terrain: https://threlte.xyz/examples/terrain
-- UseControls.Component for easier controls
-  - https://github.com/pmndrs/react-spring/blob/master/targets/three/src/index.ts
-- Big white letters on read background
-  - Textured letters
-  - Textured background
-- https://badnewsfirst.co/ - white letters on red background
-- black shapes in front of white, with blur on top https://www.facebook.com/photo/?fbid=1508338869697553&set=gm.10159258621583030&idorvanity=4884833029
-- sparkly viz, like sparkles glued to 3d letters
-- Implement audio analysis: https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-analysis
-- Might need to use `exitBeforeEnter`: https://codesandbox.io/s/1t9hh
+viz needs both a client and a server. The server is needed for:
+- Authenticating with Spotify, and emit song changes from Spotify to the client
+- Or, if [SongRec](https://github.com/marin-m/SongRec) is used, to listen to the microphone and emit song changes to the client
 
-Add a small `viz @ v0.0.1` to the bottom left corner with text who'se color is opposite of the background color.
+The client is built with [r3f](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction) and runs the visualization code.
 
+## Setup
 
-Use react-spring for transitionning stuff!
-https://discoverthreejs.com/tips-and-tricks/
+To run viz with Spotify, you need to set up a few things:
+1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/), and create a new app. 
+2. Add `http://localhost:8888/callback` as a redirect URI.
+3. Create a `.env` file in the `backend` folder with environment variables from the Spotify app.
+    ```shell
+    cp backend/.env.example backend/.env
+    ```
 
+### Build
 
-https://blog.maximeheckel.com/posts/refraction-dispersion-and-other-shader-light-effects/
+```shell
+make bootstrap
+```
 
-3D pause and play signs that pop up and fade out
+### Run
 
-Buttons become bigger on hover
+To start both the server and the client, run:
 
-- Pause appears when we click
-- Play
+```shell
+make start
+```
 
-https://developer.spotify.com/documentation/web-api/reference/#/operations/get-the-users-currently-playing-track
-
-`progress_ms` could show a nice banner all around the screen that shows the progress: 🚧
-
-https://www.landingfolio.com/
+For the full list of commands, see [Makefile](./Makefile).

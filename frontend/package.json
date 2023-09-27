@@ -1,16 +1,11 @@
 {
+  "author": "Spuffynism",
   "name": "viz",
   "version": "1.0.0",
-  "description": "Aligning drei/Text3D with responsiveness",
-  "keywords": [
-    "center",
-    "text3d",
-    "align",
-    "letterspacing",
-    "lineheight"
-  ],
+  "description": "viz frontend",
   "main": "src/index.js",
   "dependencies": {
+    "@14islands/r3f-scroll-rig": "^8.11.11",
     "@react-spring/three": "^9.6.1",
     "@react-three/drei": "9.23.3",
     "@react-three/fiber": "8.3.1",
@@ -29,15 +24,6 @@
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "BROWSER=none react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "start": "react-scripts start"
+  }
 }

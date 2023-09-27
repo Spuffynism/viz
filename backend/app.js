@@ -9,10 +9,10 @@ import { detectNowPlaying, getNowPlaying } from './api/songrec.js'
 
 config()
 
-const CLIENT_ID = process.env.CLIENT_ID
-const CLIENT_SECRET = process.env.CLIENT_SECRET
+const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
+const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
 const REDIRECT_URI = process.env.REDIRECT_URI
-const AUTH_HEADER = 'Basic ' + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')
+const AUTH_HEADER = 'Basic ' + Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64')
 
 const stateKey = 'spotify_auth_state'
 
@@ -25,12 +25,11 @@ app.get('/login', (req, res) => {
   const state = generateStateCookie()
   res.cookie(stateKey, state)
 
-  // your application requests authorization
   const scope = 'user-read-currently-playing'
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
-      client_id: CLIENT_ID,
+      client_id: SPOTIFY_CLIENT_ID,
       scope: scope,
       redirect_uri: REDIRECT_URI,
       state: state

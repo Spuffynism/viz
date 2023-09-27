@@ -3,18 +3,24 @@ import Monolith from './scenes/monolith/Monolith'
 import Sparkling from './scenes/sparkling/Sparkling'
 import Goop from './scenes/goop/Goop'
 import Spinning from './scenes/spinning/Spinning'
+import WireframeGoop from './scenes/wireframegoop/WireframeGoop'
+import FullWireframe from './scenes/fullwireframe/FullWireframe'
+
+const env = 'prod';
 
 const config = {
-  showControls: false,
-  changeWithSong: false,
+  showControls: env === 'dev',
+  changeWithSong: env === 'prod',
   scenes: [
+    //FullWireframe,
+    Goop,
+    WireframeGoop,
     Ascii,
-    Spinning,
+    //Spinning,
     Monolith,
     //Dispersion,
     //Refraction,
-    Sparkling,
-    Goop
+    //Sparkling
   ],
   startScene: Goop.name,
   strategy: 'Spotify'

@@ -9,7 +9,6 @@ import * as THREE from 'three'
 import { EffectComposer, Noise, Vignette } from '@react-three/postprocessing'
 
 export default function Spinning() {
-  console.log('mount spinning')
   const { song } = useContext(NowPlayingContext)
 
   return (
