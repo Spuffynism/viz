@@ -3,8 +3,8 @@
 viz is a music visualiser. It works with Spotify, or though a microphone with [SongRec](https://github.com/marin-m/SongRec).
 
 <p>
-  <img width="30%" src="screenshots/wireframe.png" alt="Wireframe visualization"/>
-  <img width="30%" src="screenshots/ascii.png" alt="Ascii visualization"/>
+  <img width="40%" src="screenshots/wireframe.png" alt="Wireframe visualization"/>
+  <img width="40%" src="screenshots/ascii.png" alt="Ascii visualization"/>
 </p>
 
 ## Usage
