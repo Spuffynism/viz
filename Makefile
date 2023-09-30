@@ -1,4 +1,5 @@
 bootstrap:
+	npm install -g concurrently
 	(cd backend && npm install)
 	(cd frontend && npm install)
 

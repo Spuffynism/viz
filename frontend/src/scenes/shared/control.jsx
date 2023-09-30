@@ -13,15 +13,12 @@ export function control(Component) {
           value: props[prop],
           onChange: (value) => {
             if (ref.current) {
-              console.log('changing', value)
               ref.current[prop] = value
             }
           }
         }
       }
     }).reduce((acc, v) => ({...acc, ...v}), {})
-
-    console.log(mappedProps)
 
     const controlledProps = useControls(mappedProps);
 

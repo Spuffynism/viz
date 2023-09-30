@@ -1,21 +1,7 @@
-import * as THREE from 'three'
-import { Canvas, useThree } from '@react-three/fiber'
-import {
-  Sparkles,
-  Shadow,
-  ContactShadows,
-  Billboard,
-  Environment,
-  BakeShadows,
-  OrbitControls,
-  Text, Stars, Center, Text3D
-} from '@react-three/drei'
-import { LayerMaterial, Depth } from 'lamina'
+import { Canvas } from '@react-three/fiber'
+import { BakeShadows, Center, ContactShadows, Environment, OrbitControls, Text3D } from '@react-three/drei'
 import { useControls } from 'leva'
-import config from '../../config'
-import { useContext } from 'react'
-import { NowPlayingContext, useSong } from '../../NowPlayingContext'
-import useCorners from '../shared/corners'
+import { useSong } from '../../NowPlayingContext'
 
 export default function Sparkling({ env = 'construction_yard_4k.hdr' }) {
   const song = useSong()

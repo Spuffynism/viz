@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 
 // adapted from https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 const useInterval = (callback, { delay, executeImmediately = false, active = true }) => {

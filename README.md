@@ -9,8 +9,8 @@ viz is a music visualiser. It works with Spotify, or though a microphone with [S
 
 ## Usage
 
-viz needs both a client and a server. The server is needed for:
-- Authenticating with Spotify, and emit song changes from Spotify to the client
+viz needs both a client and a server. The server is needed to:
+- Authenticate with Spotify, and emit song changes from Spotify to the client
 - Or, if [SongRec](https://github.com/marin-m/SongRec) is used, to listen to the microphone and emit song changes to the client
 
 The client is built with [r3f](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction) and runs the visualization code.

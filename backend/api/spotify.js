@@ -1,4 +1,4 @@
-import request from "request";
+import request from 'request'
 
 const AUTH_HEADER = 'Basic ' + new Buffer(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
 

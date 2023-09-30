@@ -1,41 +1,14 @@
-import { useState } from 'react'
 import { DEFAULT_NOW_PLAYING, NowPlayingContext } from './NowPlayingContext'
-import { getAudioAnalysis, getNowPlaying } from './api/spotify'
+import { getNowPlaying } from './api/spotify'
 import SceneSwitcher from './main/SceneSwitcher'
 import useInterval from './main/useInterval'
 import config from './config'
 import { useControls } from 'leva'
-import { ReadyState, useEventSource } from 'react-use-websocket'
-
-const useNowPlaying = (initialState) => {
-  const [nowPlaying, setNowPlaying] = useState(initialState)
-
-  return [
-    nowPlaying,
-    (song, startEpoch = +(new Date())) => {
-      if (!song) {
-        return
-      }
-
-      const songChanged = Object.keys(song).some((key) => song[key] !== nowPlaying.song[key])
-
-      if (!songChanged) {
-        return
-      }
-
-      console.log(song);
-      setNowPlaying({
-        song,
-        startEpoch
-      })
-    }
-  ]
-}
+import { useEventSource } from 'react-use-websocket'
+import { useNowPlaying } from './useNowPlaying'
 
 export default function App() {
   const [nowPlaying, setNowPlaying] = useNowPlaying(DEFAULT_NOW_PLAYING)
-
-  //const audioAnalysis = getAudioAnalysis("0aRPJ7iHzvO7ZSMSlTC2ZH")
 
   const { strategy } = useControls({
     strategy: { options: ['Spotify', 'SongRec'], value: config.strategy }
