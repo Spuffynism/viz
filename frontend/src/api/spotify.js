@@ -4,7 +4,7 @@ const refreshToken = () => {
   window.location.href = 'http://localhost:8888/login'
 }
 
-export const getNowPlaying = async () => {
+export const useGetNowPlaying = async () => {
   const accessToken = useAccessToken()
 
   if (!accessToken) {
@@ -38,7 +38,7 @@ export const getNowPlaying = async () => {
   return body
 }
 
-export const getAudioAnalysis = async (trackId) => {
+export const useGetAudioAnalysis = async (trackId) => {
   const accessToken = useAccessToken()
 
   if (!accessToken) {

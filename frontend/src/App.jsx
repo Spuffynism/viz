@@ -1,5 +1,5 @@
 import { DEFAULT_NOW_PLAYING, NowPlayingContext } from './NowPlayingContext'
-import { getNowPlaying } from './api/spotify'
+import { useGetNowPlaying } from './api/spotify'
 import SceneSwitcher from './main/SceneSwitcher'
 import useInterval from './main/useInterval'
 import config from './config'
@@ -28,7 +28,7 @@ export default function App() {
     strategy === 'SongRec'
   );
 
-  continuouslyRefreshSong(nowPlaying.song, setNowPlaying, null, strategy === 'Spotify')
+  useContinuouslyRefreshSong(nowPlaying.song, setNowPlaying, null, strategy === 'Spotify')
 
   return (
     <NowPlayingContext.Provider value={nowPlaying}>
@@ -37,9 +37,9 @@ export default function App() {
   )
 }
 
-const continuouslyRefreshSong = (oldSong, setNowPlaying, setProgressMs, active) => {
-  const refreshSong = async () => {
-    const nowPlaying = await getNowPlaying()
+const useContinuouslyRefreshSong = (oldSong, setNowPlaying, setProgressMs, active) => {
+  const useRefreshSong = async () => {
+    const nowPlaying = await useGetNowPlaying()
 
     if (!nowPlaying) {
       return
@@ -55,5 +55,5 @@ const continuouslyRefreshSong = (oldSong, setNowPlaying, setProgressMs, active) 
     setNowPlaying(newSong)
   }
 
-  useInterval(refreshSong, { delay: 1_000, executeImmediately: true, active })
+  return useInterval(useRefreshSong, { delay: 1_000, executeImmediately: true, active })
 }

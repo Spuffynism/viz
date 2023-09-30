@@ -23,7 +23,7 @@ const SceneSwitcher = ({ scenes, changeWithSong = false, startScene = null }) =>
     setActiveScene(scene)
 
     set({ scene })
-  }, [song])
+  }, [song, activeScene, changeWithSong, sceneNames, set])
 
   const Scene = sceneMap[scene]
 
