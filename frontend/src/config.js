@@ -2,11 +2,9 @@ import Ascii from './scenes/ascii/Ascii'
 import Goop from './scenes/goop/Goop'
 import WireframeGoop from './scenes/wireframegoop/WireframeGoop'
 
-const env = 'dev';
-
 const config = {
-  showControls: env === 'dev',
-  changeWithSong: env === 'prod',
+  showControls: import.meta.env.DEV,
+  changeWithSong: import.meta.env.PROD,
   scenes: [
     Goop,
     WireframeGoop,
