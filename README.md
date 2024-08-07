@@ -19,7 +19,7 @@ The client is built with [r3f](https://docs.pmnd.rs/react-three-fiber/getting-st
 
 To run viz with Spotify, you need to set up a few things:
 1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/), and create a new app. 
-2. Add `http://localhost:8888/callback` as a redirect URI.
+2. Add `http://localhost:3000/callback` as a redirect URI.
 3. Create a `.env` file in the `backend` folder with environment variables from the Spotify app.
     ```shell
     cp backend/.env.example backend/.env
