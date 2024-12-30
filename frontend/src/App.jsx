@@ -1,11 +1,11 @@
 import { DEFAULT_NOW_PLAYING, NowPlayingContext } from './NowPlayingContext'
-import { useGetNowPlaying } from './api/spotify'
 import SceneSwitcher from './main/SceneSwitcher'
 import useInterval from './main/useInterval'
 import config from './config'
 import { useControls } from 'leva'
 import { useEventSource } from 'react-use-websocket'
 import { useNowPlaying } from './useNowPlaying'
+import { useGetNowPlaying } from './api/useGetNowPlaying'
 
 export default function App() {
   const [nowPlaying, setNowPlaying] = useNowPlaying(DEFAULT_NOW_PLAYING)
