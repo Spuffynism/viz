@@ -14,6 +14,7 @@ export default function App() {
     strategy: { options: ['Spotify', 'SongRec'], value: config.strategy }
   })
 
+  // TODO(nico): make this only available in dev
   useEventSource(
     strategy === 'SongRec' ? 'http://localhost:8888/now-playing' : null,
     {
